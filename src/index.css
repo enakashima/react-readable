@@ -1,3 +1,8 @@
+
+* {
+  box-sizing: border-box
+}
+
 body {
   margin: 0;
   padding: 0;
@@ -6,9 +11,160 @@ body {
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: rgb(255, 255, 255);
+  font-size: 15px;
 }
 
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
+}
+
+.container {
+  max-width: 1000px;
+  margin: 0 auto;
+  padding: 10px;
+}
+
+ul {
+  padding-left: 0;
+}
+
+li {
+  list-style-type: none;
+  padding: 10px;
+  text-decoration: none;
+}
+
+a {
+  text-decoration: none;
+  color: #252525;
+}
+
+.comment-form {
+  width: 100%;
+  max-width: 590px;
+  padding: 10px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.card {
+  position: relative;
+  display: block;
+  width: 100%;
+  max-width: 590px;
+  padding: 10px;
+  margin: 0 auto;
+  background-color: rgb(255, 255, 255);
+  border: 1px solid rgb(0, 122, 204);
+  border-radius: 3px;
+}
+
+.card .title {font-weight: bold;}
+.card .timestamp {
+  color: #969696;
+  font-size: 13px;
+}
+.card .author {color: #969696; font-size: 12px;}
+
+.card-footer {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.card-footer * {
+  margin-left: 5px;
+}
+
+.center {
+  text-align: center;
+}
+
+.input {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  padding: 10px;
+  font-size: 15px;
+  margin: 5px 0 5px 0;
+}
+
+.textarea {
+  border-radius: 4px;
+  border: 1px solid #dad7d7;
+  padding: 10px;
+  font-size: 15px;
+  height: 100px;
+}
+
+.btn {
+  text-transform: uppercase;
+  margin: 35px auto;
+  padding: 10px;
+  border: 1px solid rgba(0,0,0,.29);
+  cursor: pointer;
+  background: #fff;
+  font-size: 16px;
+  width: 250px;
+  position: relative;
+}
+
+.btn:hover {
+  border-color: rgba(0,0,0,.5);
+  text-decoration: none;
+}
+
+.btn:focus {
+  outline: 0;
+  font-weight: 700;
+  border-width: 2px;
+}
+
+.nav ul {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  text-decoration: none;
+}
+
+.nav li:first-child {
+  padding-left: 0;
+}
+
+.icon-button {
+  background: transparent;
+  border: none;
+  font-size: 30px;
+  padding: 0 0 0 0;
+  cursor: pointer;
+}
+
+.icon-button-thumbs-up {
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  padding: 0 0 0 0;
+  cursor: pointer;
+}
+
+.icon-button-thumbs-down {
+  background: transparent;
+  border: none;
+  font-size: 15px;
+  padding: 3px 0 0 0;
+  cursor: pointer;
+}
+
+.vote-score {
+  min-width: 30px;
+  text-align: center;
+  padding: 0 0 3px 0;
+}
+
+.remove-button {
+  position: absolute;
+  top: 5px;
+  right: 5px;
 }

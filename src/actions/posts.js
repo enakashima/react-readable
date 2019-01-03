@@ -1,0 +1,49 @@
+import { showLoading, hideLoading } from "react-redux-loading"
+import { votePost } from '../api/ReadableAPI'
+
+export const RECEIVE_POSTS = 'RECEIVE_POSTS'
+export const UPDATE_POST_COMMENTS_COUNT = 'UPDATE_POST_COMMENTS_COUNT'
+export const UPDATE_POST_VOTE_SCORE = 'UPDATE_POST_VOTE_SCORE'
+export const DELETE_POST = 'DELETE_POST'
+
+export function receivePosts (posts) {
+    return {
+        type: RECEIVE_POSTS,
+        posts
+    }
+}
+
+export function updatePostCommentsCount (postId) {
+    return {
+        type: UPDATE_POST_COMMENTS_COUNT,
+        postId
+    }
+}
+
+function updatePostVoteScore(postId, voteScore) {
+    return {
+        type: UPDATE_POST_VOTE_SCORE,
+        postId,
+        voteScore
+    }
+}
+
+export function handleUpdatePostVoteScore(postId, option) {
+    return (dispatch) => {
+        dispatch(showLoading())
+        return votePost(postId, option)
+            .then(res => dispatch(updatePostVoteScore(postId, res.voteScore)))
+            .then(dispatch(hideLoading()))
+    }
+}
+
+function deletePost(postId) {
+    return {
+        type: DELETE_POST,
+        postId
+    }
+}
+
+export function handleDeletePost(postId) {
+    return deletePost(postId)
+}
