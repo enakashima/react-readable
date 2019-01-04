@@ -6,6 +6,7 @@ import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
 import CommentsPage from './CommentsPage'
 import Nav from './Nav'
+import NewPost from './NewPost'
 
 class App extends Component {
   
@@ -23,6 +24,7 @@ class App extends Component {
               <Nav />
               <Route  path='/' exact component={Dashboard}/>
               <Route  path='/post/:postId' exact component={CommentsPage}/>
+              <Route  path='/new-post' exact component={NewPost}/>
             </div>
         }
       </BrowserRouter>

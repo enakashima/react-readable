@@ -41,7 +41,7 @@ a {
   color: #252525;
 }
 
-.comment-form {
+.form {
   width: 100%;
   max-width: 590px;
   padding: 10px;
@@ -81,6 +81,17 @@ a {
 
 .center {
   text-align: center;
+}
+
+select, option {
+  background-color: white;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  appearance: none;
+}
+
+select.default-selected{
+  color: rgb(117, 117, 117);
 }
 
 .input {

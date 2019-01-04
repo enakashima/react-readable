@@ -1,7 +1,8 @@
 import { 
     RECEIVE_COMMENTS, 
     ADD_COMMENT,
-    UPDATE_COMMENT_VOTE_SCORE
+    UPDATE_COMMENT_VOTE_SCORE,
+    DELETE_COMMENT
 } from '../actions/comments'
 
 export default function comments (state = {}, action) {
@@ -22,6 +23,14 @@ export default function comments (state = {}, action) {
                 [action.commentId]: {
                     ...state[action.commentId],
                     voteScore: action.voteScore
+                }
+            }
+        case DELETE_COMMENT :
+            return {
+                ...state,
+                [action.commentId] : {
+                    ...state[action.commentId],
+                    deleted: true
                 }
             }
         default : 

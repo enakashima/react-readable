@@ -2,9 +2,18 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { formatDate } from '../utils/helpers'
 import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
-import { handleUpdateCommentVoteScore } from '../actions/comments'
+import { TiDelete } from 'react-icons/ti'
+import { handleUpdateCommentVoteScore, handleDeleteComment } from '../actions/comments'
 
 class Comment extends Component {
+
+    handleDelete = (e) => {
+        e.preventDefault()
+
+        const { dispatch, id } = this.props
+
+        dispatch(handleDeleteComment(id))
+    }
 
     handleDislike = (e) => {
         e.preventDefault()
@@ -28,6 +37,13 @@ class Comment extends Component {
 
         return (
             <div className='card'>
+                <div className='remove-button'>
+                    <button 
+                        className='icon-button'
+                        onClick={this.handleDelete}>
+                        <TiDelete />
+                    </button> 
+                </div>
                 <div className='timestamp'>{formatDate(timestamp)}</div>
                 <div className='author'>Author: @{author}</div>
                 <p className='body'>{body}</p>

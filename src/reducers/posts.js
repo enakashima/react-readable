@@ -2,7 +2,8 @@ import {
     RECEIVE_POSTS, 
     UPDATE_POST_COMMENTS_COUNT,
     UPDATE_POST_VOTE_SCORE,
-    DELETE_POST
+    DELETE_POST,
+    ADD_POST
 } from '../actions/posts'
 
 export default function posts (state = {}, action) {
@@ -17,7 +18,7 @@ export default function posts (state = {}, action) {
                 ...state,
                 [action.postId]: {
                     ...state[action.postId],
-                    commentCount: state[action.postId].commentCount+1
+                    commentCount: action.commentCount
                 }
             }
         case UPDATE_POST_VOTE_SCORE :
@@ -35,6 +36,11 @@ export default function posts (state = {}, action) {
                     ...state[action.postId],
                     deleted: true
                 }
+            }
+        case ADD_POST :
+            return {
+                ...state,
+                [action.post.id]: action.post
             }
         default : 
             return state

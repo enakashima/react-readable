@@ -41,7 +41,7 @@ function mapStateToProps({ comments }, props) {
     const { postId } = props.match.params
     return {
         comments: 
-            Object.keys(comments).filter((commentId) => comments[commentId].parentId === postId)
+            Object.keys(comments).filter((commentId) => comments[commentId].parentId === postId && comments[commentId].deleted === false)
             .sort((a, b) => comments[b].timestamp - comments[a].timestamp)
     }
 }

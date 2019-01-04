@@ -50,7 +50,7 @@ class NewComment extends Component {
 
         return (
             <div>
-                <form className='comment-form' onSubmit={this.handleSubmit}>
+                <form className='form' onSubmit={this.handleSubmit}>
                     <input 
                         type='text' 
                         placeholder='Your name' 

@@ -1,10 +1,11 @@
 import { showLoading, hideLoading } from "react-redux-loading"
-import { votePost } from '../api/ReadableAPI'
+import { votePost, savePost, removePost } from '../api/ReadableAPI'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const UPDATE_POST_COMMENTS_COUNT = 'UPDATE_POST_COMMENTS_COUNT'
 export const UPDATE_POST_VOTE_SCORE = 'UPDATE_POST_VOTE_SCORE'
 export const DELETE_POST = 'DELETE_POST'
+export const ADD_POST = 'ADD_POST'
 
 export function receivePosts (posts) {
     return {
@@ -13,10 +14,11 @@ export function receivePosts (posts) {
     }
 }
 
-export function updatePostCommentsCount (postId) {
+export function updatePostCommentsCount (postId, commentCount) {
     return {
         type: UPDATE_POST_COMMENTS_COUNT,
-        postId
+        postId,
+        commentCount
     }
 }
 
@@ -45,5 +47,26 @@ function deletePost(postId) {
 }
 
 export function handleDeletePost(postId) {
-    return deletePost(postId)
+    return (dispatch) => {
+        dispatch(showLoading())
+        return removePost(postId)
+            .then(() => dispatch(deletePost(postId)))
+            .then(() => dispatch(hideLoading()))
+    }
+}
+
+function addPost(post) {
+    return {
+        type: ADD_POST,
+        post
+    }
+}
+
+export function handleAddPost(post) {
+    return (dispatch) => {
+        dispatch(showLoading())
+        return savePost(post)
+            .then(res => dispatch(addPost(res)))
+            .then(() => dispatch(hideLoading()))
+    }
 }
