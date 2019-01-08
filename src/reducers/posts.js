@@ -31,11 +31,12 @@ export default function posts (state = {}, action) {
             }
         case DELETE_POST :
             return {
-                ...state,
-                [action.postId]: {
-                    ...state[action.postId],
-                    deleted: true
-                }
+                ...Object.keys(state)
+                    .filter(key => key !== action.postId)
+                    .reduce((result, current) => {
+                        result[current] = state[current]
+                        return result
+                    }, {})  
             }
         case ADD_POST :
             return {

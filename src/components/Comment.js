@@ -36,7 +36,7 @@ class Comment extends Component {
         const { author, timestamp, body, voteScore} = this.props.comment
 
         return (
-            <div className='card'>
+            <div className='card card-border'>
                 <div className='remove-button'>
                     <button 
                         className='icon-button'

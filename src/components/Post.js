@@ -51,7 +51,7 @@ class Post extends Component {
         }
 
         return (
-            <Link to={`/post/${id}`} className='card'>
+            <Link to={`/post/${id}`} className='card card-border'>
                 <div className='remove-button'>
                     <button 
                         className='icon-button'

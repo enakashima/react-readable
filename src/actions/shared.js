@@ -9,6 +9,7 @@ export function handleInitialData () {
         dispatch(showLoading())
 
         getInitialData().then((data) => {
+            console.log('posts', data.posts)
             dispatch(receivePosts(data.posts))
             dispatch(receiveCategories(data.categories))
             dispatch(hideLoading())

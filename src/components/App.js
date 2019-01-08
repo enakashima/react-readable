@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import LoadingBar from 'react-redux-loading'
 import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
-import CommentsPage from './CommentsPage'
+import CommentsPage from './PostCommentsPage'
 import Nav from './Nav'
 import NewPost from './NewPost'
 

@@ -58,6 +58,9 @@ a {
   padding: 10px;
   margin: 0 auto;
   background-color: rgb(255, 255, 255);
+}
+
+.card-border {
   border: 1px solid rgb(0, 122, 204);
   border-radius: 3px;
 }
@@ -83,11 +86,12 @@ a {
   text-align: center;
 }
 
-select, option {
+select {
   background-color: white;
   -webkit-appearance: none;
   -moz-appearance: none;
   appearance: none;
+  cursor: pointer;
 }
 
 select.default-selected{

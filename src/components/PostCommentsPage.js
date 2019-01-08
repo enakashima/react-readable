@@ -4,6 +4,7 @@ import { handleReceiveComments } from '../actions/comments'
 import Post from './Post'
 import Comment from './Comment'
 import NewComment from './NewComment'
+import { comment } from 'postcss-selector-parser';
 
 class CommentsPage extends Component {
 
@@ -16,23 +17,28 @@ class CommentsPage extends Component {
         const { comments } = this.props
         const { postId } = this.props.match.params
         
-        return (
-            <Fragment>
-                <ul>
-                    <li>
-                        <Post id={postId} redirectOnDelete='/'/>
-                    </li>
-                    <li><NewComment postId={postId}/></li>
-                    <li><h3 className='center'>Comments</h3></li>
-                    {comments.map((commentId) => (
-                        <li key={commentId}>
-                            <Comment id={commentId} />
-                        </li>
-                    ))}
-                </ul>
-                
+        console.log('comments', comments)
 
-            </Fragment>
+        return (
+            <ul>
+                <li>
+                    <Post id={postId} redirectOnDelete='/'/>
+                </li>
+                <li><NewComment postId={postId}/></li>
+                
+                <li className='center'>
+                    {comments.length !== 0 
+                        ? <h3>Comments</h3>
+                        : 'No comments yet!'
+                    }
+                </li>
+
+                {comments.map((commentId) => (
+                    <li key={commentId}>
+                        <Comment id={commentId} />
+                    </li>
+                ))}
+            </ul>
         )
     }
 }

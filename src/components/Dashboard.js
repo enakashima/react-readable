@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 
-import PostPage from './PostPage'
+import PostsPage from './PostsPage'
 
 class Dashboard extends Component {
     render () {
         return (
             <div>
                 
-                <PostPage />
+                <PostsPage />
             </div>
         )
     }

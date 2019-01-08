@@ -47,11 +47,21 @@ function deletePost(postId) {
 }
 
 export function handleDeletePost(postId) {
-    return (dispatch) => {
+    return (dispatch, getState) => {
+        
         dispatch(showLoading())
+
+        const post = getState().posts[postId]
+
+        dispatch(deletePost(postId))
+
         return removePost(postId)
-            .then(() => dispatch(deletePost(postId)))
             .then(() => dispatch(hideLoading()))
+            .catch(() => {
+                dispatch(addPost(post))
+                dispatch(hideLoading())
+                alert('An error occurred while deleting the post!')
+            })
     }
 }
 
