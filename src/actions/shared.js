@@ -8,11 +8,15 @@ export function handleInitialData () {
 
         dispatch(showLoading())
 
-        getInitialData().then((data) => {
-            console.log('posts', data.posts)
-            dispatch(receivePosts(data.posts))
-            dispatch(receiveCategories(data.categories))
-            dispatch(hideLoading())
-        })
+        getInitialData()
+            .then((data) => {
+                console.log('posts', data.posts)
+                dispatch(receivePosts(data.posts))
+                dispatch(receiveCategories(data.categories))
+            })
+            .catch(() => {
+                alert('Error while getting initial data!')
+            })
+            .finally(() => dispatch(hideLoading()))
     }
 }
