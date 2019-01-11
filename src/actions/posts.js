@@ -1,5 +1,6 @@
 import { showLoading, hideLoading } from "react-redux-loading"
 import { votePost, savePost, removePost } from '../api/ReadableAPI'
+import { flashMessage, flashErrorMessage } from 'redux-flash'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
 export const UPDATE_POST_COMMENTS_COUNT = 'UPDATE_POST_COMMENTS_COUNT'
@@ -35,7 +36,7 @@ export function handleUpdatePostVoteScore(postId, option) {
         dispatch(showLoading())
         return votePost(postId, option)
             .then(res => dispatch(updatePostVoteScore(postId, res.voteScore)))
-            .then(dispatch(hideLoading()))
+            .finally(dispatch(hideLoading()))
     }
 }
 
@@ -56,12 +57,13 @@ export function handleDeletePost(postId) {
         dispatch(deletePost(postId))
 
         return removePost(postId)
+            .then(() => dispatch(flashMessage('Post deleted!')))
             .then(() => dispatch(hideLoading()))
             .catch(() => {
                 dispatch(addPost(post))
-                dispatch(hideLoading())
-                alert('An error occurred while deleting the post!')
+                dispatch(flashErrorMessage('An error occurred while deleting the post!'))
             })
+            .finally(() => dispatch(hideLoading()))
     }
 }
 
@@ -77,6 +79,9 @@ export function handleAddPost(post) {
         dispatch(showLoading())
         return savePost(post)
             .then(res => dispatch(addPost(res)))
-            .then(() => dispatch(hideLoading()))
+            .finally(() => {
+                dispatch(hideLoading())
+                dispatch(flashMessage('Post added!'))
+            })
     }
 }

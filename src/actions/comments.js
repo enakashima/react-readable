@@ -1,6 +1,7 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
 import { getComments, saveComment, voteComment, removeComment } from '../api/ReadableAPI'
 import { updatePostCommentsCount } from '../actions/posts'
+import { flashMessage, flashErrorMessage } from 'redux-flash'
 
 export const RECEIVE_COMMENTS = 'RECEIVE_COMMENTS'
 export const ADD_COMMENT = 'ADD_COMMENT'
@@ -26,7 +27,9 @@ export function handleAddComment (comment) {
         return saveComment(comment)
             .then(res => dispatch(addComment(res)))
             .then(() => dispatch(updatePostCommentsCount(comment.parentId, commentCount)))
-            .then(() => dispatch(hideLoading()))
+            .then(() => dispatch(flashMessage('Comment added to this post!')))
+            .catch(() => dispatch(flashErrorMessage('An error occurred while we were adding your comment to Post!')))
+            .finally(() => dispatch(hideLoading()))
     }
 }
 
@@ -42,7 +45,8 @@ export function handleReceiveComments (postId) {
         dispatch (showLoading())
         return getComments(postId)
             .then((data) => dispatch(receiveComments(data)))
-            .then(() => dispatch(hideLoading()))
+            .catch(() => dispatch(flashErrorMessage('An error occurred while receiving comments')))
+            .finally(() => dispatch(hideLoading()))
     }
 }
 
@@ -59,7 +63,7 @@ export function handleUpdateCommentVoteScore(commentId, option) {
         dispatch(showLoading())
         return voteComment(commentId, option)
             .then((res) => dispatch(updateCommentVoteScore(commentId, res.voteScore)))
-            .then(() => dispatch(hideLoading()))
+            .finally(() => dispatch(hideLoading()))
     }
 }
 
@@ -76,11 +80,14 @@ export function handleDeleteComment(commentId) {
         const { posts, comments } = getState()
         const parentId = comments[commentId].parentId
         const commentCount = posts[parentId].commentCount-1
-        console.log('comment count', commentCount)
+
         dispatch(showLoading())
+        
         return removeComment(commentId)
             .then(() => dispatch(deleteComment(commentId)))
             .then(() => dispatch(updatePostCommentsCount(parentId, commentCount)))
-            .then(() => dispatch(hideLoading()))
+            .then(() => dispatch(flashMessage('Comment deleted from this post!')))
+            .catch(() => dispatch(flashErrorMessage('An error occurred while deleting the comment!')))
+            .finally(() => dispatch(hideLoading()))
     }
 }

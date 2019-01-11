@@ -4,25 +4,16 @@ import { connect } from 'react-redux'
 import { formatDate } from '../utils/helpers'
 import { FaComment, FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
 import { TiDelete} from 'react-icons/ti'
-import { Redirect } from 'react-router-dom'
 
 import { handleUpdatePostVoteScore, handleDeletePost } from '../actions/posts'
 
 class Post extends Component {
 
-    state = {
-        deleted : false
-    }
-
     handleDelete = (e) => {
         e.preventDefault()
-        const { dispatch, redirectOnDelete } = this.props
+        const { dispatch } = this.props
         
         dispatch(handleDeletePost(this.props.id))
-
-        if(redirectOnDelete) {
-            this.setState({deleted: true})
-        }
     }
 
     handleDislike = (e) => {
@@ -42,13 +33,10 @@ class Post extends Component {
     }
 
     render () {
-        const { id, redirectOnDelete } = this.props
-        const { deleted } = this.state
-        const { author, body, category, commentCount, timestamp, title, voteScore } = this.props.post
+        
+        const { id } = this.props
 
-        if(deleted) {
-            return <Redirect to={redirectOnDelete}/>
-        }
+        const { author, body, category, commentCount, timestamp, title, voteScore } = this.props.post
 
         return (
             <Link to={`/post/${id}`} className='card card-border'>

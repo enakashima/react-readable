@@ -7,6 +7,7 @@ import Dashboard from './Dashboard'
 import CommentsPage from './PostCommentsPage'
 import Nav from './Nav'
 import NewPost from './NewPost'
+import Messages from './Messages'
 
 class App extends Component {
   
@@ -15,11 +16,11 @@ class App extends Component {
   }
 
   render() {
-    console.log('still loading', this.props.stillLoading)
     return (
       <BrowserRouter>
         <Fragment>
           <LoadingBar />
+          <Messages />
           {this.props.stillLoading ? null
           :  <div className='container'>
                 <Nav />

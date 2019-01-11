@@ -1,10 +1,11 @@
-import React, { Component, Fragment } from 'react'
+import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import { handleReceiveComments } from '../actions/comments'
 import Post from './Post'
 import Comment from './Comment'
 import NewComment from './NewComment'
-import { comment } from 'postcss-selector-parser';
+import { Redirect } from 'react-router-dom'
+import Message from './Message'
 
 class CommentsPage extends Component {
 
@@ -14,38 +15,40 @@ class CommentsPage extends Component {
     }
 
     render () {
-        const { comments } = this.props
+        const { comments, post } = this.props
         const { postId } = this.props.match.params
         
-        console.log('comments', comments)
-
-        return (
-            <ul>
-                <li>
-                    <Post id={postId} redirectOnDelete='/'/>
-                </li>
-                <li><NewComment postId={postId}/></li>
-                
-                <li className='center'>
-                    {comments.length !== 0 
-                        ? <h3>Comments</h3>
-                        : 'No comments yet!'
-                    }
-                </li>
-
-                {comments.map((commentId) => (
-                    <li key={commentId}>
-                        <Comment id={commentId} />
+        return post 
+            ? (
+                <ul>
+                    <li>
+                        <Post id={postId} />
                     </li>
-                ))}
-            </ul>
-        )
+                    <li><NewComment postId={postId}/></li>
+                    
+                    <li className='center'>
+                        {comments.length !== 0 
+                            ? <h3>Comments</h3>
+                            : <Message message='No comments yet!' />
+                        }
+                    </li>
+    
+                    {comments.map((commentId) => (
+                        <li key={commentId}>
+                            <Comment id={commentId} />
+                        </li>
+                    ))}
+                </ul>
+            ) 
+            : <Redirect to='/'/>
+        
     }
 }
 
-function mapStateToProps({ comments }, props) {
+function mapStateToProps({ comments, posts }, props) {
     const { postId } = props.match.params
     return {
+        post: posts[postId],
         comments: 
             Object.keys(comments).filter((commentId) => comments[commentId].parentId === postId && comments[commentId].deleted === false)
             .sort((a, b) => comments[b].timestamp - comments[a].timestamp)

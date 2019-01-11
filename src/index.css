@@ -183,3 +183,36 @@ select.default-selected{
   top: 5px;
   right: 5px;
 }
+
+.message {
+  padding: 50px;
+  font-style: italic;
+}
+
+.message-container {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 999;
+}
+
+.message-container .messages li {
+  padding: 25px;
+  margin: 25px;
+  width: 300px;
+  border-radius: 5px;
+  box-shadow: 0 3px 0.429em 0 rgba(0, 0, 0, 0.16);
+  animation: pop 0.3s linear 1;
+}
+
+.error-message {
+  background-color: rgb(255, 177, 186);
+}
+
+.info-message {
+  background-color: rgb(171, 220, 183);
+}
+
+@keyframes pop{
+  50%  {transform: scale(1.2);}
+}

@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 import { connect } from 'react-redux'
 import Post from './Post'
 import CategorySelection from './CategorySelection'
+import Message from './Message'
 
 class Posts extends Component {
 
@@ -38,7 +39,7 @@ class Posts extends Component {
                     ))
                     :
                     <li className='center'>
-                        No posts yet!    
+                        <Message message='No posts yet!' />    
                     </li>
                 }
             </ul>

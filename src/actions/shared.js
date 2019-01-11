@@ -2,6 +2,7 @@ import { showLoading, hideLoading } from 'react-redux-loading'
 import { getInitialData } from '../api/ReadableAPI'
 import { receiveCategories } from '../actions/categories'
 import { receivePosts } from '../actions/posts'
+import { flashErrorMessage } from 'redux-flash'
 
 export function handleInitialData () {
     return (dispatch) => {
@@ -10,13 +11,11 @@ export function handleInitialData () {
 
         getInitialData()
             .then((data) => {
-                console.log('posts', data.posts)
+                console.log('data',data)
                 dispatch(receivePosts(data.posts))
                 dispatch(receiveCategories(data.categories))
             })
-            .catch(() => {
-                alert('Error while getting initial data!')
-            })
+            .catch(() => dispatch(flashErrorMessage('Error while getting initial data!')))
             .finally(() => dispatch(hideLoading()))
     }
 }
