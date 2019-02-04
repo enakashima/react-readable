@@ -9,13 +9,12 @@ export function handleInitialData () {
 
         dispatch(showLoading())
 
-        getInitialData()
-            .then((data) => {
-                console.log('data',data)
-                dispatch(receivePosts(data.posts))
-                dispatch(receiveCategories(data.categories))
-            })
-            .catch(() => dispatch(flashErrorMessage('Error while getting initial data!')))
-            .finally(() => dispatch(hideLoading()))
+        return getInitialData()
+                .then((data) => {
+                    dispatch(receivePosts(data.posts))
+                    dispatch(receiveCategories(data.categories))
+                })
+                .catch(() => dispatch(flashErrorMessage('Error while getting initial data!')))
+                .finally(() => dispatch(hideLoading()))
     }
 }

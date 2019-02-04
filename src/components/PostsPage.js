@@ -4,7 +4,7 @@ import Post from './Post'
 import CategorySelection from './CategorySelection'
 import Message from './Message'
 
-class Posts extends Component {
+class PostsPage extends Component {
 
     state = {
         selectedCategory: ''
@@ -24,6 +24,7 @@ class Posts extends Component {
             posts = posts.filter(post => post.category === selectedCategory)
         }
 
+        console.log('postcount', posts)
         return (
             <ul>
                 <li className='card'>
@@ -48,15 +49,12 @@ class Posts extends Component {
 }
 
 function mapStateToProps ({posts, categories}) {
-    console.log('mapStateToProps')
-
     const orderedPosts = Object.values(posts)
                     .sort((a,b) => b.timestamp - a.timestamp)
-
     return {
         posts: orderedPosts,
         categories
     }
 }
 
-export default connect(mapStateToProps)(Posts)
+export default connect(mapStateToProps)(PostsPage)

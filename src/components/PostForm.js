@@ -1,39 +1,67 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
-import { handleAddPost } from '../actions/posts'
+import { handleAddPost, handleUpdatePost } from '../actions/posts'
 import { generateUID } from '../utils/helpers'
 import { Redirect } from 'react-router-dom'
 
-class NewPost extends Component {
+class PostForm extends Component {
 
     state = {
+        isEditing: false,
         name: '',
         post: '',
         category: '',
         title: '',
-        created: false
+        redirect: false
+    }
+
+    componentDidMount() {
+        const {postToEdit} = this.props
+        if(postToEdit) {
+            const { author, body, category, title } = postToEdit
+            this.setState({
+                isEditing: true,
+                name: author,
+                post: body,
+                category,
+                title
+            })
+        }
     }
 
     handleSubmit = (e) => {
         e.preventDefault()
 
-        const post = {
-            id: generateUID(),
-            timestamp: new Date().getTime(),
-            title: this.state.title,
-            body: this.state.post,
-            author: this.state.name ? this.state.name : 'anonymous',
-            category: this.state.category
-        }
+        if(this.state.isEditing) {
+            const { postToEdit } = this.props
+            const post = {
+                 ...postToEdit,
+                 title: this.state.title,
+                 body: this.state.post,
+                 author: this.state.name ? this.state.name : 'anonymous',
+                 category: this.state.category
+            }
 
-        this.props.dispatch(handleAddPost(post))
+            this.props.dispatch(handleUpdatePost(post))
+        }else {
+            const post = {
+                id: generateUID(),
+                timestamp: new Date().getTime(),
+                title: this.state.title,
+                body: this.state.post,
+                author: this.state.name ? this.state.name : 'anonymous',
+                category: this.state.category
+            }
+    
+            this.props.dispatch(handleAddPost(post))
+        }
 
         this.setState(() => ({
             name: '',
             post: '',
             category: '',
             title: '',
-            created: true
+            redirect: true
         }))
     }
 
@@ -66,15 +94,18 @@ class NewPost extends Component {
     }
 
     render () {
-        const { name, post, category, title, created } = this.state
+        const { name, post, category, title, redirect, isEditing } = this.state
 
-        if(created) {
+        if(redirect) {
             return <Redirect to='/' />
         }
 
         return (
             <div>
                 <form className='form' onSubmit={this.handleSubmit}>
+                    <h3 className='center'>
+                        {isEditing ? 'Edit this Post' : 'Create a New Post'}
+                    </h3>
                     <select 
                         className={category === '' ? 'input default-selected' : 'input'}
                         value={category}
@@ -116,9 +147,13 @@ class NewPost extends Component {
     }
 }
 
-function mapStateToProps({ categories }) {
+function mapStateToProps({ categories, posts }, props) {
+
+    const { postId } = props.match.params
+    
     return {
-        categories
+        categories,
+        postToEdit: posts[postId]
     }
 }
-export default connect(mapStateToProps)(NewPost)
+export default connect(mapStateToProps)(PostForm)

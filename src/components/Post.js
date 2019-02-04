@@ -1,8 +1,8 @@
 import React, { Component } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, withRouter } from 'react-router-dom'
 import { connect } from 'react-redux'
 import { formatDate } from '../utils/helpers'
-import { FaComment, FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
+import { FaComment, FaThumbsDown, FaThumbsUp, FaEdit } from 'react-icons/fa'
 import { TiDelete} from 'react-icons/ti'
 
 import { handleUpdatePostVoteScore, handleDeletePost } from '../actions/posts'
@@ -39,7 +39,7 @@ class Post extends Component {
         const { author, body, category, commentCount, timestamp, title, voteScore } = this.props.post
 
         return (
-            <Link to={`/post/${id}`} className='card card-border'>
+            <div className='card card-border'>
                 <div className='remove-button'>
                     <button 
                         className='icon-button'
@@ -52,7 +52,13 @@ class Post extends Component {
                 <div className='author'>Author: @{author}</div>
                 <p className='body'>{body}</p>
                 <div className='card-footer'>
-                    <FaComment />
+                    <Link to={`/edit-post/${id}`} 
+                        className='icon-button-thumbs-down'>
+                        <FaEdit />
+                    </Link>
+                    <Link to={`/post/${id}`} >
+                        <FaComment />
+                    </Link>
                     <span>{commentCount}</span>
                     <button 
                         className='icon-button-thumbs-down'
@@ -66,7 +72,7 @@ class Post extends Component {
                     </button>
                     <span className='vote-score'>{voteScore}</span>
                 </div>
-            </Link>
+            </div>
         )
     }
 }
@@ -77,4 +83,4 @@ function mapStateToProps({posts}, {id}) {
     }
 }
 
-export default connect(mapStateToProps)(Post)
+export default withRouter(connect(mapStateToProps)(Post))

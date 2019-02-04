@@ -1,5 +1,5 @@
 import { showLoading, hideLoading } from 'react-redux-loading'
-import { getComments, saveComment, voteComment, removeComment } from '../api/ReadableAPI'
+import { getComments, saveComment, voteComment, removeComment, editComment } from '../api/ReadableAPI'
 import { updatePostCommentsCount } from '../actions/posts'
 import { flashMessage, flashErrorMessage } from 'redux-flash'
 
@@ -88,6 +88,24 @@ export function handleDeleteComment(commentId) {
             .then(() => dispatch(updatePostCommentsCount(parentId, commentCount)))
             .then(() => dispatch(flashMessage('Comment deleted from this post!')))
             .catch(() => dispatch(flashErrorMessage('An error occurred while deleting the comment!')))
+            .finally(() => dispatch(hideLoading()))
+    }
+}
+
+export function handleUpdateComment(comment) {
+    return (dispatch, getState) => {
+
+        const originalComment = getState().comments[comment.id]
+
+        dispatch(showLoading())
+        dispatch(addComment(comment))
+
+        return editComment(comment)
+            .then(() => dispatch(flashMessage('Comment updated!')))
+            .catch(() => {
+                dispatch(addComment(originalComment))
+                dispatch(flashMessage('An error occurred while updating the comment!'))
+            })
             .finally(() => dispatch(hideLoading()))
     }
 }

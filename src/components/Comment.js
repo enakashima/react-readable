@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
+import { Link } from 'react-router-dom'
 import { formatDate } from '../utils/helpers'
-import { FaThumbsDown, FaThumbsUp } from 'react-icons/fa'
+import { FaThumbsDown, FaThumbsUp, FaEdit } from 'react-icons/fa'
 import { TiDelete } from 'react-icons/ti'
 import { handleUpdateCommentVoteScore, handleDeleteComment } from '../actions/comments'
 
@@ -34,6 +35,7 @@ class Comment extends Component {
     render () {
 
         const { author, timestamp, body, voteScore} = this.props.comment
+        const { id } = this.props
 
         return (
             <div className='card card-border'>
@@ -48,6 +50,9 @@ class Comment extends Component {
                 <div className='author'>Author: @{author}</div>
                 <p className='body'>{body}</p>
                 <div className='card-footer'>
+                    <Link to={`/edit-comment/${id}`}>
+                        <FaEdit />
+                    </Link>
                     <button 
                         className='icon-button-thumbs-down'
                         onClick={this.handleDislike}>

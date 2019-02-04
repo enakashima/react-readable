@@ -1,5 +1,5 @@
 import { showLoading, hideLoading } from "react-redux-loading"
-import { votePost, savePost, removePost } from '../api/ReadableAPI'
+import { votePost, savePost, removePost, editPost } from '../api/ReadableAPI'
 import { flashMessage, flashErrorMessage } from 'redux-flash'
 
 export const RECEIVE_POSTS = 'RECEIVE_POSTS'
@@ -36,6 +36,7 @@ export function handleUpdatePostVoteScore(postId, option) {
         dispatch(showLoading())
         return votePost(postId, option)
             .then(res => dispatch(updatePostVoteScore(postId, res.voteScore)))
+            .catch(() => dispatch(flashErrorMessage('An error occurred while voting in this post!')))
             .finally(dispatch(hideLoading()))
     }
 }
@@ -79,9 +80,26 @@ export function handleAddPost(post) {
         dispatch(showLoading())
         return savePost(post)
             .then(res => dispatch(addPost(res)))
-            .finally(() => {
-                dispatch(hideLoading())
-                dispatch(flashMessage('Post added!'))
+            .then(() => dispatch(flashMessage('Post added!')))
+            .catch(() => dispatch(flashMessage('An error occurred while adding post!')))
+            .finally(() => dispatch(hideLoading()))
+    }
+}
+
+export function handleUpdatePost(post) {
+    return (dispatch, getState) => {
+
+        const originalPost = getState().posts[post.id]
+
+        dispatch(showLoading())
+        dispatch(addPost(post))
+
+        return editPost(post)
+            .then(() => dispatch(flashMessage('Post updated!')))
+            .catch(() => {
+                dispatch(addPost(originalPost))
+                dispatch(flashMessage('An error occurred while updating the post!'))
             })
+            .finally(() => dispatch(hideLoading()))
     }
 }

@@ -34,14 +34,25 @@ export const votePost = (postId, option) =>
     })
       .then(res => res.json())
 
-export const savePost = (comment) =>
+export const savePost = (post) =>
     fetch(`${api}/posts`, {
         method: 'POST',
         headers: {
         ...headers,
         'Content-Type': 'application/json'
         },
-        body: JSON.stringify(comment)
+        body: JSON.stringify(post)
+    })
+        .then(res => res.json())
+
+export const editPost = (post) =>
+    fetch(`${api}/posts/${post.id}`, {
+        method: 'PUT',
+        headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(post)
     })
         .then(res => res.json())
 
@@ -53,6 +64,8 @@ export const removePost = (postId) =>
         }
     })
         .then(res => res.json())
+
+
 
 export const getComments = (postId) =>
     fetch(`${api}/posts/${postId}/comments`, { headers })
@@ -92,6 +105,17 @@ export const removeComment = (commentId) =>
         headers: {
         ...headers
         }
+    })
+        .then(res => res.json())
+
+export const editComment = (comment) =>
+    fetch(`${api}/comments/${comment.id}`, {
+        method: 'PUT',
+        headers: {
+        ...headers,
+        'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(comment)
     })
         .then(res => res.json())
 

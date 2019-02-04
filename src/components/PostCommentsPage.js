@@ -3,7 +3,7 @@ import { connect } from 'react-redux'
 import { handleReceiveComments } from '../actions/comments'
 import Post from './Post'
 import Comment from './Comment'
-import NewComment from './NewComment'
+import CommentForm from './CommentForm'
 import { Redirect } from 'react-router-dom'
 import Message from './Message'
 
@@ -24,7 +24,7 @@ class CommentsPage extends Component {
                     <li>
                         <Post id={postId} />
                     </li>
-                    <li><NewComment postId={postId}/></li>
+                    <li><CommentForm postId={postId}/></li>
                     
                     <li className='center'>
                         {comments.length !== 0 
@@ -47,6 +47,7 @@ class CommentsPage extends Component {
 
 function mapStateToProps({ comments, posts }, props) {
     const { postId } = props.match.params
+
     return {
         post: posts[postId],
         comments: 

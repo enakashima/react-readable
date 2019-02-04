@@ -6,7 +6,8 @@ import { handleInitialData } from '../actions/shared'
 import Dashboard from './Dashboard'
 import CommentsPage from './PostCommentsPage'
 import Nav from './Nav'
-import NewPost from './NewPost'
+import PostForm from './PostForm'
+import CommentForm from './CommentForm'
 import Messages from './Messages'
 
 class App extends Component {
@@ -26,7 +27,9 @@ class App extends Component {
                 <Nav />
                 <Route  path='/' exact component={Dashboard}/>
                 <Route  path='/post/:postId' exact component={CommentsPage}/>
-                <Route  path='/new-post' exact component={NewPost}/>
+                <Route  path='/new-post' exact component={PostForm}/>
+                <Route  path='/edit-post/:postId' exact component={PostForm}/>
+                <Route  path='/edit-comment/:commentId' exact component={CommentForm}/>
               </div>
           }
         </Fragment>
